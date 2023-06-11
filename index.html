@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Canvas Demo</title>
+    <style>
+      canvas {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas" style="width: 100vw; height: 100vh;"></canvas>
+    <script>
+      // 获取 Canvas 元素和绘图上下文
+      var canvas = document.getElementById("canvas");
+      var ctx = canvas.getContext("2d");
+
+      // 设置画布的宽度和高度为屏幕的宽度和高度
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      // 定义球的初始位置、半径和速度
+      var x = canvas.width / 2;
+      var y = canvas.height / 2;
+      var radius = 20;
+      var dx = 14;
+      var dy = -14;
+
+      // 定义绘制球的函数
+      function drawBall() {
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = "green";
+        ctx.fill();
+        ctx.closePath();
+      }
+
+      // 定义更新球位置的函数
+      function updateBallPosition() {
+        // 判断球是否碰到了画布边缘
+        if (x + dx > canvas.width - radius || x + dx < radius) {
+          dx = -dx; // 随机转向
+        }
+        if (y + dy > canvas.height - radius || y + dy < radius) {
+          dy = -dy; // 随机转向
+        }
+
+        // 更新球的位置
+        x += dx;
+        y += dy;
+      }
+
+      // 定义动画函数
+      function animate() {
+        // 清除画布
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // 绘制球和更新位置
+        drawBall();
+        updateBallPosition();
+
+        // 循环调用动画函数
+        requestAnimationFrame(animate);
+      }
+
+      // 启动动画
+      animate();
+    </script>
+  </body>
+</html>
